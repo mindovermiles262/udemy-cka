@@ -1,0 +1,25 @@
+  apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    name: rs-guestbook
+    labels:
+      tier: frontend
+  spec:
+    replicas: 3
+    # Use `selector` to determin which pods this RS should control. k8s will
+    # find all matchinb pods even if this RS didn't create them
+    selector:
+      matchLabels:
+        tier: frontend
+        app: guestbook
+    # Define the pods you want created. Copy of the pod-definition.yaml file
+    # without the `apiVersion` and `kind` fields
+    template:
+      metadata:
+        labels:
+          tier: frontend
+          app: guestbook
+      spec:
+        containers:
+          - name: nginx
+            image: nginx
